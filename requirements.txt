@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+langchain-core
+langchain-community
+sentence-transformers
+einops
+transformers==4.46.3
+faiss-cpu
+huggingface_hub
+requests
+rank_bm25

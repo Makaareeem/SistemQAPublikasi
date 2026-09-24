@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QA Publikasi Statistik BPS</title>
+<style>
+:root {
+  --navy:#002b6a; --primary:#003c80; --accent:#0093dd;
+  --bg:#eef0f2; --card:#ffffff; --line:#dde2e8;
+  --fg:#1b2430; --mut:#68758a; --accent-soft:#e6f4fc;
+  --good:#1a9e5c; --bad:#d64545;
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.6 -apple-system,"Segoe UI",system-ui,sans-serif; }
+
+.topbar {
+  background:var(--navy); color:#fff; padding:16px 20px; display:flex; align-items:center;
+  justify-content:space-between; gap:12px; box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+.topbar .brand { font-weight:700; font-size:15.5px; letter-spacing:.01em; }
+.topbar .brand small { display:block; font-weight:400; font-size:11.5px; color:#c9d6ea; }
+.nav-links { display:flex; gap:22px; }
+.nav-links a {
+  color:#c9d6ea; font-size:13.5px; font-weight:600; text-decoration:none; cursor:pointer;
+  transition:color .15s;
+}
+.nav-links a:hover { color:#fff; }
+
+.wrap { max-width:860px; margin:0 auto; padding:40px 20px 100px; transition:padding .2s; }
+header.hero { text-align:center; margin-bottom:32px; transition:margin .2s; }
+h1 { font-size:25px; font-weight:700; margin:0 0 6px; color:var(--navy); transition:font-size .2s; }
+.sub { color:var(--mut); font-size:14px; transition:font-size .2s; }
+
+body.landing .wrap {
+  min-height:calc(100vh - 64px); display:flex; flex-direction:column; justify-content:center;
+}
+body.landing h1 { font-size:42px; }
+body.landing .sub { font-size:19px; }
+body.landing header.hero { margin-bottom:26px; }
+
+.typewriter {
+  display:none; text-align:center; margin-bottom:28px; font-size:15px; color:var(--primary);
+  font-family:ui-monospace,monospace; min-height:22px;
+}
+body.landing .typewriter { display:block; }
+.typewriter::after { content:'|'; margin-left:2px; animation:blink 1s step-start infinite; }
+@keyframes blink { 50% { opacity:0; } }
+
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,15,40,.5); display:none;
+  align-items:center; justify-content:center; z-index:50; padding:20px;
+}
+.modal-overlay.show { display:flex; }
+.modal-box {
+  background:var(--card); border-radius:14px; max-width:520px; width:100%; padding:28px 30px;
+  box-shadow:0 12px 40px rgba(0,0,0,.25); position:relative; max-height:80vh; overflow-y:auto;
+}
+.modal-box h3 { color:var(--navy); margin:0 0 14px; font-size:18px; }
+.modal-box p, .modal-box li { font-size:14px; color:var(--fg); line-height:1.7; }
+.modal-box ol { padding-left:20px; margin:0; }
+.modal-close {
+  position:absolute; top:14px; right:16px; border:none; background:none; font-size:20px;
+  color:var(--mut); cursor:pointer; line-height:1;
+}
+.modal-close:hover { color:var(--bad); }
+
+.search-box {
+  display:flex; gap:10px; background:var(--card); border:1px solid var(--line);
+  border-radius:12px; padding:6px 6px 6px 18px; box-shadow:0 4px 16px rgba(0,43,106,.08);
+  transition:border-color .15s;
+}
+.search-box:focus-within { border-color:var(--accent); }
+.search-box input {
+  flex:1; border:none; background:none; color:var(--fg); font:inherit; padding:12px 0;
+}
+.search-box input:focus { outline:none; }
+.search-box button {
+  border:none; border-radius:8px; background:var(--accent); color:#fff; font:inherit; font-weight:600;
+  padding:0 22px; cursor:pointer; transition:background .15s;
+}
+.search-box button:hover:not(:disabled) { background:var(--primary); }
+.search-box button:disabled { opacity:.5; cursor:default; }
+
+.model-row {
+  display:flex; justify-content:center; align-items:center; gap:10px; margin-top:14px;
+  font-size:12.5px; color:var(--mut);
+}
+.model-row select {
+  background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:8px;
+  padding:5px 10px; font:inherit;
+}
+.dot { width:6px; height:6px; border-radius:50%; display:inline-block; margin-right:5px; flex:none; }
+.dot.ok { background:var(--good); } .dot.bad { background:var(--bad); }
+
+.spinner {
+  width:12px; height:12px; border:2px solid var(--line); border-top-color:var(--accent);
+  border-radius:50%; display:inline-block; flex:none; margin-right:5px;
+  animation:spin .7s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+.think-card {
+  background:var(--card); border:1px solid var(--line); border-radius:14px; margin-top:28px;
+  display:none; box-shadow:0 2px 10px rgba(0,43,106,.06); overflow:hidden;
+}
+.think-toggle {
+  display:flex; align-items:center; gap:6px; padding:16px 20px; cursor:pointer; user-select:none;
+  font-size:13.5px; color:var(--mut);
+}
+.think-toggle:hover { background:var(--accent-soft); }
+.think-arrow { color:var(--accent); flex:none; }
+.think-body { padding:0 20px 18px 20px; font-size:13px; display:none; }
+.think-body.open { display:block; }
+.tstep { display:flex; gap:6px; align-items:center; padding:4px 0; color:var(--mut); }
+.tstep.done { color:var(--fg); }
+.tstep .tmark { width:12px; display:flex; }
+
+.rank-table { margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-family:ui-monospace,monospace; font-size:12px; }
+.rank-item {
+  display:flex; gap:8px; align-items:center; padding:5px 0; border-bottom:1px solid var(--line);
+}
+.rank-item .rtitle { flex:1; color:var(--fg); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.rank-item .rscore { flex:none; width:60px; text-align:right; }
+.rank-item.rejected { opacity:.45; }
+.rank-meta { margin-bottom:6px; color:var(--mut); }
+
+.answer-card {
+  background:var(--card); border:1px solid var(--line); border-radius:14px; padding:26px 28px;
+  margin-top:16px; display:none; box-shadow:0 2px 10px rgba(0,43,106,.06);
+}
+.answer-card .label {
+  font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--accent);
+  font-weight:700; margin-bottom:12px;
+}
+#answer { white-space:pre-wrap; font-size:15.5px; line-height:1.7; }
+.meta {
+  margin-top:18px; padding-top:14px; border-top:1px solid var(--line); font-size:11.5px;
+  color:var(--mut); font-family:ui-monospace,monospace; display:flex; gap:14px; flex-wrap:wrap;
+}
+
+.src-section { margin-top:32px; display:none; }
+.src-section .label {
+  font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--mut);
+  font-weight:700; margin-bottom:14px; padding-left:2px;
+}
+.src-grid { display:flex; flex-direction:column; gap:10px; }
+.src-card {
+  background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 18px;
+  transition:box-shadow .15s;
+}
+.src-card:hover { box-shadow:0 2px 10px rgba(0,43,106,.08); }
+.src-head { display:flex; gap:10px; align-items:baseline; }
+.src-num {
+  flex:none; width:22px; height:22px; border-radius:6px; background:var(--accent-soft); color:var(--primary);
+  font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;
+}
+.src-title { font-weight:600; font-size:14.5px; color:var(--navy); text-decoration:none; }
+.src-title:hover { color:var(--accent); text-decoration:underline; }
+.src-meta { margin:4px 0 0 32px; font-size:12px; color:var(--mut); display:flex; gap:10px; flex-wrap:wrap; }
+.src-answer {
+  margin:10px 0 0 32px; padding:10px 12px; background:var(--accent-soft); border-left:3px solid var(--accent);
+  border-radius:0 8px 8px 0; font-size:13.5px; color:#294365; font-style:italic;
+}
+
+.err { color:var(--bad); text-align:center; margin-top:20px; }
+</style>
+</head>
+<body class="landing">
+<div class="topbar">
+  <div class="brand">Sistem Tanya Jawab Publikasi Statistik<small>Badan Pusat Statistik</small></div>
+  <div class="nav-links">
+    <a onclick="openModal('howto')">Cara Pakai</a>
+    <a onclick="openModal('howwork')">Cara Kerja Sistem</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <h1>Question Answering Publikasi Statistik BPS</h1>
+    <div class="sub">Retrieval-Augmented Generation dengan Small Language Model</div>
+  </header>
+
+  <div class="typewriter" id="typewriter"></div>
+
+  <div class="search-box">
+    <input id="q" placeholder="Tanyakan sesuatu tentang publikasi statistik BPS..." autocomplete="off">
+    <button id="btn" onclick="ask()">Tanya</button>
+  </div>
+  <div class="model-row">
+    <span id="status"><span class="dot"></span>memeriksa...</span>
+    <span>·</span>
+    <label>model
+      <select id="model">
+        <option value="llama3.2-finetuned">llama3.2-finetuned</option>
+        <option value="llama3.2-base">llama3.2-base</option>
+        <option value="gemma2-finetuned">gemma2-finetuned</option>
+        <option value="gemma2-base">gemma2-base</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="err" id="error" style="display:none"></div>
+
+  <div class="think-card" id="thinkCard">
+    <div class="think-toggle" onclick="toggleThink()">
+      <span class="think-arrow" id="thinkArrow">&#9662;</span>
+      <span id="thinkSummary">Memproses...</span>
+    </div>
+    <div class="think-body open" id="thinkBody">
+      <div id="thinkSteps"></div>
+      <div class="rank-table" id="rankTable" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="answer-card" id="ansCard">
+    <div class="label">Jawaban</div>
+    <div id="answer"></div>
+    <div class="meta" id="meta"></div>
+  </div>
+
+  <div class="src-section" id="srcSection">
+    <div class="label">Sumber &amp; Kutipan</div>
+    <div class="src-grid" id="sources"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if (event.target === this) closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+const API = window.API_BASE || '';
+
+document.getElementById('q').addEventListener('keydown', e => {
+  if (e.key === 'Enter') ask();
+});
+
+fetch(API + '/api/health').then(r => r.json()).then(d => {
+  const s = document.getElementById('status');
+  s.innerHTML = `<span class="dot ${d.inference_reachable ? 'ok' : 'bad'}"></span>${d.inference_reachable ? 'inference aktif' : 'inference tidak terjangkau'}`;
+}).catch(() => {});
+
+const TOPICS = [
+  "Dimensi Kemiskinan di Indonesia",
+  "Indeks Pembangunan Manusia (IPM)",
+  "Tingkat Pengangguran Terbuka (TPT)",
+  "Pertumbuhan Ekonomi Triwulanan",
+  "Neraca Perdagangan Indonesia",
+  "Survei Sosial Ekonomi Nasional (Susenas)",
+  "Statistik Kesejahteraan Rakyat",
+  "Inflasi dan Indeks Harga Konsumen",
+];
+let twPhrase = 0, twChar = 0, twDeleting = false, twTimer = null;
+function typewriterTick() {
+  const el = document.getElementById('typewriter');
+  if (!el || !document.body.classList.contains('landing')) return;
+  const current = TOPICS[twPhrase];
+  if (!twDeleting) {
+    twChar++;
+    el.textContent = current.slice(0, twChar);
+    if (twChar === current.length) {
+      twDeleting = true;
+      twTimer = setTimeout(typewriterTick, 1600);
+      return;
+    }
+  } else {
+    twChar--;
+    el.textContent = current.slice(0, twChar);
+    if (twChar === 0) {
+      twDeleting = false;
+      twPhrase = (twPhrase + 1) % TOPICS.length;
+    }
+  }
+  twTimer = setTimeout(typewriterTick, twDeleting ? 25 : 55);
+}
+typewriterTick();
+
+function openModal(which) {
+  const content = {
+    howto: `
+      <h3>Cara Pakai</h3>
+      <ol>
+        <li>Pilih model SLM yang ingin digunakan (opsional, sudah ada pilihan default).</li>
+        <li>Ketik pertanyaan Anda terkait publikasi statistik BPS pada kotak pencarian.</li>
+        <li>Tekan Enter atau klik tombol "Tanya".</li>
+        <li>Sistem menampilkan proses pencarian secara langsung, lalu jawaban beserta sumber publikasi yang digunakan.</li>
+        <li>Klik judul sumber untuk membuka publikasi aslinya, atau klik ringkasan proses untuk melihat detail pencarian.</li>
+      </ol>`,
+    howwork: `
+      <h3>Cara Kerja Sistem</h3>
+      <p>Sistem ini menggunakan pendekatan <b>Retrieval-Augmented Generation (RAG)</b>: pertanyaan Anda
+      diperluas untuk membantu pencarian, lalu dicari secara paralel menggunakan pencarian semantik (dense)
+      dan pencarian kata kunci (BM25). Hasil gabungan disaring ulang dengan model cross-encoder untuk
+      memastikan relevansi, lalu bagian yang paling relevan diberikan ke Small Language Model (SLM) untuk
+      disusun menjadi jawaban.</p>
+      <p>Pendekatan ini membantu sistem menjawab berdasarkan isi publikasi resmi BPS, bukan sekadar
+      pengetahuan umum dari model.</p>`,
+  }[which];
+  document.getElementById('modalContent').innerHTML = content;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+
+let thinkOpen = true;
+function toggleThink() {
+  thinkOpen = !thinkOpen;
+  document.getElementById('thinkBody').classList.toggle('open', thinkOpen);
+  document.getElementById('thinkArrow').innerHTML = thinkOpen ? '&#9662;' : '&#9656;';
+}
+
+function addStep(label) {
+  const steps = document.getElementById('thinkSteps');
+  const prev = steps.querySelector('.tstep.active');
+  if (prev) {
+    prev.classList.remove('active');
+    prev.classList.add('done');
+    prev.querySelector('.tmark').innerHTML = '<span class="dot ok"></span>';
+  }
+  const div = document.createElement('div');
+  div.className = 'tstep active';
+  div.innerHTML = `<span class="tmark"><span class="spinner"></span></span><span>${label}</span>`;
+  steps.appendChild(div);
+}
+
+function finishSteps() {
+  const steps = document.getElementById('thinkSteps');
+  const prev = steps.querySelector('.tstep.active');
+  if (prev) {
+    prev.classList.remove('active');
+    prev.classList.add('done');
+    prev.querySelector('.tmark').innerHTML = '<span class="dot ok"></span>';
+  }
+}
+
+function renderRankTable(process) {
+  if (!process || !process.reranked || !process.reranked.length) return;
+  const table = document.getElementById('rankTable');
+  table.style.display = 'block';
+  table.innerHTML = `
+    <div class="rank-meta"><b>Query diperluas:</b> ${(process.expanded_queries || [])[0] || '-'}<br>
+    <b>Kandidat sebelum rerank:</b> ${process.candidates_before_rerank} &middot; <b>Threshold rerank:</b> ${process.rerank_threshold}</div>
+    ${process.reranked.map(r => `
+      <div class="rank-item ${r.passed ? '' : 'rejected'}">
+        <span class="dot ${r.passed ? 'ok' : 'bad'}"></span>
+        <span class="rtitle">${r.document_title || '-'} (${r.chunk_id || '-'})</span>
+        <span class="rscore">${r.score.toFixed(3)}</span>
+      </div>
+    `).join('')}
+  `;
+}
+
+async function ask() {
+  const q = document.getElementById('q').value.trim();
+  if (!q) return;
+  document.body.classList.remove('landing');
+  const btn = document.getElementById('btn');
+  btn.disabled = true;
+  btn.textContent = '...';
+  document.getElementById('error').style.display = 'none';
+  document.getElementById('ansCard').style.display = 'none';
+  document.getElementById('srcSection').style.display = 'none';
+
+  const thinkCard = document.getElementById('thinkCard');
+  thinkCard.style.display = 'block';
+  thinkOpen = true;
+  document.getElementById('thinkBody').classList.add('open');
+  document.getElementById('thinkArrow').innerHTML = '&#9662;';
+  document.getElementById('thinkSummary').textContent = 'Memproses...';
+  document.getElementById('thinkSteps').innerHTML = '';
+  document.getElementById('rankTable').style.display = 'none';
+
+  try {
+    const res = await fetch(API + '/api/ask/stream', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        question: q,
+        model_key: document.getElementById('model').value,
+        use_rag: true
+      })
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.detail || 'Gagal memproses');
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    let finalData = null;
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const chunks = buffer.split('\n\n');
+      buffer = chunks.pop();
+      for (const chunk of chunks) {
+        if (!chunk.trim()) continue;
+        let event = 'message', data = '';
+        for (const line of chunk.split('\n')) {
+          if (line.startsWith('event:')) event = line.slice(6).trim();
+          if (line.startsWith('data:')) data += line.slice(5).trim();
+        }
+        const payload = JSON.parse(data);
+        if (event === 'error') {
+          throw new Error(payload.detail || 'Gagal memproses');
+        } else if (event === 'done') {
+          finalData = payload;
+        } else {
+          addStep(payload.label);
+          if (payload.process) renderRankTable(payload.process);
+        }
+      }
+    }
+
+    if (!finalData) throw new Error('Tidak ada respons dari server');
+    finishSteps();
+    document.getElementById('thinkSummary').textContent =
+      `Selesai dalam ${finalData.latency.total_s}s`;
+    thinkOpen = false;
+    document.getElementById('thinkBody').classList.remove('open');
+    document.getElementById('thinkArrow').innerHTML = '&#9656;';
+
+    document.getElementById('answer').textContent = finalData.answer;
+    document.getElementById('meta').textContent =
+      `retrieval ${finalData.latency.retrieval_s}s · sitasi ${finalData.latency.citation_s}s · generasi ${finalData.latency.generation_s}s · total ${finalData.latency.total_s}s · ${finalData.config.model_key}`;
+    document.getElementById('ansCard').style.display = 'block';
+
+    if (finalData.sources.length) {
+      document.getElementById('srcSection').style.display = 'block';
+      document.getElementById('sources').innerHTML = finalData.sources.map((s, i) => `
+        <div class="src-card">
+          <div class="src-head">
+            <span class="src-num">${i + 1}</span>
+            ${s.bps_url
+              ? `<a class="src-title" href="${s.bps_url}" target="_blank" rel="noopener">${s.document_title || '-'}</a>`
+              : `<span class="src-title">${s.document_title || '-'}</span>`}
+          </div>
+          <div class="src-meta">
+            ${s.page_start ? `<span>hal. ${s.page_start}-${s.page_end}</span>` : ''}
+            <span>skor ${s.score.toFixed(3)}</span>
+          </div>
+          ${s.answer ? `<div class="src-answer">${s.answer}</div>` : ''}
+        </div>
+      `).join('');
+    }
+  } catch (e) {
+    document.getElementById('error').textContent = e.message;
+    document.getElementById('error').style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Tanya';
+  }
+}
+</script>
+</body>
+</html>

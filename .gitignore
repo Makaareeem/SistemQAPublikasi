@@ -1,0 +1,8 @@
+venv/
+venv_old/
+__pycache__/
+*.pyc
+.env
+app/kb_cache/
+deploy/ollama_models/
+.claude
