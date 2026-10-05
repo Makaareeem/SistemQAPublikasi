@@ -1,0 +1,7 @@
+# Klien notebook saja; dependensi server tetap di requirements.txt.
+numpy
+pandas
+requests
+psutil
+ipykernel
+# Opsional untuk sampling GPU NVIDIA: pip install nvidia-ml-py

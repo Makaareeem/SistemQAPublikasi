@@ -1,0 +1,12 @@
+{
+  "name": "qa-bps-demo-gateway",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test gateway.test.mjs connection.test.mjs",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

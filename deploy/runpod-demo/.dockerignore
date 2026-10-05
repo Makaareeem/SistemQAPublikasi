@@ -1,0 +1,11 @@
+**
+!Dockerfile
+!snapshot/
+!snapshot/**
+!runtime/
+!runtime/**
+**/__pycache__/
+**/*.pyc
+**/.env
+**/.env.*
+**/.git/

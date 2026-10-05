@@ -1,0 +1,180 @@
+[
+  [
+    "",
+    "question_empty"
+  ],
+  [
+    " \n\t",
+    "question_empty"
+  ],
+  [
+    "​",
+    "question_empty"
+  ],
+  [
+    "cek",
+    "question_needs_topic"
+  ],
+  [
+    "CHECK!!!",
+    "question_needs_topic"
+  ],
+  [
+    "tolong cek dulu",
+    "question_needs_topic"
+  ],
+  [
+    "cek cek",
+    "question_needs_topic"
+  ],
+  [
+    "halo, selamat pagi",
+    "question_needs_topic"
+  ],
+  [
+    "terima kasih",
+    "question_needs_topic"
+  ],
+  [
+    "tes 123",
+    "question_needs_topic"
+  ],
+  [
+    "data BPS 2024",
+    "question_needs_topic"
+  ],
+  [
+    "berapa?",
+    "question_needs_topic"
+  ],
+  [
+    "??? 😀",
+    "question_needs_topic"
+  ],
+  [
+    "2024",
+    "question_needs_topic"
+  ],
+  [
+    "a",
+    "question_needs_topic"
+  ],
+  [
+    "aaaaaaa",
+    "question_needs_topic"
+  ],
+  [
+    "qwerty asdf",
+    "question_needs_topic"
+  ],
+  [
+    "halo ​cek",
+    "question_needs_topic"
+  ],
+  [
+    "cek​",
+    "question_needs_topic"
+  ],
+  [
+    "cek\u0000IPM",
+    "question_invalid"
+  ],
+  [
+    null,
+    "question_invalid"
+  ],
+  [
+    [
+      "IPM"
+    ],
+    "question_invalid"
+  ],
+  [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "question_too_long"
+  ],
+  [
+    "IPM",
+    null
+  ],
+  [
+    "TPT",
+    null
+  ],
+  [
+    "IHK",
+    null
+  ],
+  [
+    "P0",
+    null
+  ],
+  [
+    "P1 kemiskinan",
+    null
+  ],
+  [
+    "Gini",
+    null
+  ],
+  [
+    "kemiskinan",
+    null
+  ],
+  [
+    "NTT",
+    null
+  ],
+  [
+    "DI Yogyakarta",
+    null
+  ],
+  [
+    "IPAK",
+    null
+  ],
+  [
+    "Apa itu IPM?",
+    null
+  ],
+  [
+    "Halo, berapa IPM Jawa Tengah 2024?",
+    null
+  ],
+  [
+    "cek kemiskinan Jawa Tengah 2024",
+    null
+  ],
+  [
+    "uji statistik",
+    null
+  ],
+  [
+    "testing pengaruh pendidikan terhadap kemiskinan",
+    null
+  ],
+  [
+    "inflasi 2024",
+    null
+  ],
+  [
+    "Berapa TPT?\nJawa Tengah, 2024.",
+    null
+  ],
+  [
+    "就业",
+    null
+  ],
+  [
+    "IPM 📊",
+    null
+  ],
+  [
+    "Indeks khusus penanganan stunting",
+    null
+  ],
+  [
+    "Mengapa kemiskinan meningkat?",
+    null
+  ]
+]

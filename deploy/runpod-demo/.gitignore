@@ -1,0 +1,8 @@
+snapshot/
+gateway/public/
+gateway/node_modules/
+gateway/.wrangler/
+gateway/.dev.vars
+gateway/.env*
+__pycache__/
+*.pyc

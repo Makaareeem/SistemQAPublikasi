@@ -18,7 +18,7 @@ def ensure_ollama_running():
 
 def build_modelfile_content(gguf_path, system_role, repeat_penalty):
     abs_path = os.path.abspath(gguf_path).replace("\\", "/")
-    lines = [f"FROM {abs_path}"]
+    lines = [f'FROM "{abs_path}"']
     if system_role:
         lines.append(f'SYSTEM """{SYSTEM_PROMPT}"""')
     lines.append("PARAMETER temperature 0")
@@ -39,7 +39,7 @@ def setup_model(key, cfg):
     with open(modelfile_path, "w", encoding="utf-8") as f:
         f.write(content)
 
-    subprocess.run(["ollama", "create", cfg["ollama_name"], "-f", modelfile_path], check=True)
+    subprocess.run(["ollama", "create", cfg["ollama_name"], "-f", modelfile_path], check=True, env={**os.environ, "OLLAMA_HOST": INFERENCE_URL})
     print(f"{cfg['ollama_name']} siap dipanggil via Ollama")
 
 

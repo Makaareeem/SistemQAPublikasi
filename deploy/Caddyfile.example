@@ -1,0 +1,15 @@
+# Replace the domain; run Caddy where it can reach the local FastAPI backend.
+qa.example.org {
+    encode gzip
+    @evaluation path /api/eval/*
+    respond @evaluation 404
+    @api path /api/*
+    handle @api {
+        reverse_proxy 127.0.0.1:8000 {
+            flush_interval -1
+        }
+    }
+    handle {
+        reverse_proxy 127.0.0.1:8000
+    }
+}

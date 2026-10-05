@@ -1,8 +1,15 @@
 venv/
-venv_old/
 __pycache__/
 *.pyc
 .env
 app/kb_cache/
 deploy/ollama_models/
 .claude
+.upgrade-backup/
+
+artifacts/system_performance/
+
+.ipynb_checkpoints/
+.pytest_cache/
+
+artifacts/code_audit/
